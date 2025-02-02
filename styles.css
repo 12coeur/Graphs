@@ -1,0 +1,53 @@
+/* styles.css de capteurs*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header, footer {
+    background-color: blue; 
+    color: #a9e7ae; /* couleur du fond fenetre centrale */
+    text-align: center;
+    padding: 1em;
+
+  width: 100%;
+/*  max-width: 1200px;  otée aussi */
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+  text-align: center; 
+  
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+    background-color:#a9e7ae ;/*fond du rectangle main */
+    color: blue;/*s" applique aux textes */
+    width: 100%;  /* touche les bords */
+    margin: 0 auto;
+  padding: 0 15px; /* pour ajouter un peu d'espacement */
+  box-sizing: border-box; /* inclure le padding et border dans la largeur totale */
+}
+
+p {
+    margin-top: 1em;
+    font-size: 1.2em;
+}
+
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    button {
+        width: 100%;
+        font-size: 1.2em;
+    }
+}

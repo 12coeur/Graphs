@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">  
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Graphisme des captaurs téléphones</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .sensor-data {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 300px;
+      text-align: center;
+    }
+  </style>
+
+
+</head>
+<body>
+    <header>
+        <h1>JLH third RWD</h1>
+    </header> 
+  <main>
+              <h1>Données des Capteurs</h1>
+              <img src="12c.png" alt="Logo_12coeur"> 
+              <div class="sensor-data" id="accelerometer-data">Accéléromètre: N/A</div>
+              <div class="sensor-data" id="gyroscope-data">Gyroscope: N/A</div>
+              <script src="sensors.js"></script>
+    </main>
+
+
+ 
+ <footer>
+        <p>&copy; 2025 JLH Graph V1</p>
+    </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
