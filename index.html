@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capteurs Disponibles</title>
+</head>
+<body>
+    <h1>Liste des Capteurs Disponibles</h1>
+    <ul id="sensor-list"></ul>
+
+    <script>
+        if ('navigator' in window && 'sensors' in navigator) {
+            navigator.sensors.getSupportedSensors().then(sensors => {
+                let sensorList = document.getElementById('sensor-list');
+                sensors.forEach(sensor => {
+                    let listItem = document.createElement('li');
+                    listItem.textContent = `Capteur disponible : ${sensor}`;
+                    sensorList.appendChild(listItem);
+                });
+            }).catch(error => {
+                console.error(`Erreur lors de l'obtention des capteurs : ${error}`);
+            });
+        } else {
+            console.log('Les capteurs ne sont pas pris en charge par ce navigateur.');
+        }
+    </script>
+</body>
+</html>
