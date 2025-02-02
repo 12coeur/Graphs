@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphique en Barres Dynamique avec Chart.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <main>
+        <h1>Données des Capteurs</h1>
+        <div class="sensor-data" id="accelerometer-data">Accéléromètre: N/A</div>
+        <div class="sensor-data" id="gyroscope-data">Gyroscope: N/A</div>
+        <canvas id="MonpremeierGraphiqueEnBarres"></canvas>
+    </main>
+
+    <script>
+        var ctx = document.getElementById('MonpremeierGraphiqueEnBarres').getContext('2d');
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Accéléromètre', 'Gyroscope'],
+                datasets: [{
+                    label: 'Valeurs des Capteurs',
+                    data: [0, 0],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        if ('Accelerometer' in window && 'Gyroscope' in window) {
+            var accelerometer = new Accelerometer({ frequency: 1 });
+            var gyroscope = new Gyroscope({ frequency: 1 });
+
+            accelerometer.addEventListener('reading', function() {
+                var accData = Math.sqrt(accelerometer.x**2 + accelerometer.y**2 + accelerometer.z**2).toFixed(2);
+                document.getElementById('accelerometer-data').innerText = 'Accéléromètre: ' + accData;
+                myBarChart.data.datasets[0].data[0] = accData;
+                myBarChart.update();
+            });
+
+            gyroscope.addEventListener('reading', function() {
+                var gyroData = Math.sqrt(gyroscope.x**2 + gyroscope.y**2 + gyroscope.z**2).toFixed(2);
+                document.getElementById('gyroscope-data').innerText = 'Gyroscope: ' + gyroData;
+                myBarChart.data.datasets[0].data[1] = gyroData;
+                myBarChart.update();
+            });
+
+            accelerometer.start();
+            gyroscope.start();
+        } else {
+            console.log('Les capteurs Accéléromètre et Gyroscope ne sont pas supportés par ce navigateur.');
+        }
+    </script>
+</body>
+</html>
