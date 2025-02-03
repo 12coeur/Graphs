@@ -42,7 +42,7 @@ var myChart = new Chart(ctx, {
                 beginAtZero: true
             },
             x: {
-                display: false // Retirer les libellés des axes X
+                display: true // Afficher les libellés sur l'axe X
             }
         },
         plugins: {
@@ -59,9 +59,47 @@ function toBinary(value) {
 
 function updateChart(sensorType, axis, dataIndex, value) {
     let binaryValue = toBinary(value);
-    document.getElementById(`${sensorType}-data-${axis}`).textContent = `${sensorType} ${axis.toUpperCase()}: ${binaryValue}`;
-    
     if (sensorType === 'accelerometer') {
         myChart.data.datasets[0].data[dataIndex] = binaryValue;
     } else if (sensorType === 'gyroscope') {
         myChart.data.datasets[1].data[dataIndex - 3] = binaryValue; // indices 3, 4 et 5 pour le gyroscope
+    }
+    myChart.update();
+}
+
+function updateSensorDataDisplay(accelData, gyroData) {
+    document.getElementById('sensor-data-display').textContent = `Accel: ${accelData.join(', ')} | Gyro: ${gyroData.join(', ')}`;
+}
+
+if ('Accelerometer' in window) {
+    let accelerometer = new Accelerometer({ frequency: 60 });
+    let accelData = [0, 0, 0];
+    accelerometer.addEventListener('reading', () => {
+        accelData[0] = toBinary(accelerometer.x);
+        accelData[1] = toBinary(accelerometer.y);
+        accelData[2] = toBinary(accelerometer.z);
+        updateChart('accelerometer', 'x', 0, accelerometer.x);
+        updateChart('accelerometer', 'y', 1, accelerometer.y);
+        updateChart('accelerometer', 'z', 2, accelerometer.z);
+        updateSensorDataDisplay(accelData, [0, 0, 0]);
+    });
+    accelerometer.start();
+} else {
+    console.log('L\'API Accéléromètre n\'est pas disponible.');
+}
+
+if ('Gyroscope' in window) {
+    let gyroscope = new Gyroscope({ frequency: 60 });
+    let gyroData = [0, 0, 0];
+    gyroscope.addEventListener('reading', () => {
+        gyroData[0] = toBinary(gyroscope.x);
+        gyroData[1] = toBinary(gyroscope.y);
+        gyroData[2] = toBinary(gyroscope.z);
+        updateChart('gyroscope', 'x', 3, gyroscope.x);
+        updateChart('gyroscope', 'y', 4, gyroscope.y);
+        updateChart('gyroscope', 'z', 5, gyroscope.z);
+        updateSensorDataDisplay([0, 0, 0], gyroData);
+    });
+    gyroscope.start();
+} else {
+    console.log('L\'API Gyroscope n\'est pas disponible
