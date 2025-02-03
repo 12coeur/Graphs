@@ -8,14 +8,15 @@
     <style>
         main {
             display: flex;
-            flex-wrap: nowrap; /* Évitez de passer à une nouvelle ligne */
+            flex-wrap: wrap; /* Permettre de passer à une nouvelle ligne si nécessaire */
             justify-content: center;
             align-items: flex-start;
         }
         canvas {
-            flex: 1 1 45%; /* 45% de largeur pour chaque graphique */
+            flex: 1 1 calc(50% - 20px); /* Ajuster la largeur à 50% - 20px pour les marges */
             margin: 10px;
             height: 25vh; /* Réduire la hauteur des graphiques */
+            max-width: 100%; /* Empêcher le dépassement des largeurs */
         }
         @media (max-width: 600px) {
             canvas {
