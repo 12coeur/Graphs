@@ -4,7 +4,7 @@ var gyroCtx = document.getElementById('gyroscopeChart').getContext('2d');
 var accelChart = new Chart(accelCtx, {
     type: 'bar',
     data: {
-        labels: ['Accéléromètre X', 'Accéléromètre Y', 'Accéléromètre Z'],
+        labels: ['X', 'Y', 'Z'],
         datasets: [{
             label: 'Accéléromètre',
             data: [0, 0, 0],
@@ -51,7 +51,7 @@ var accelChart = new Chart(accelCtx, {
 var gyroChart = new Chart(gyroCtx, {
     type: 'bar',
     data: {
-        labels: ['Gyroscope X', 'Gyroscope Y', 'Gyroscope Z'],
+        labels: ['X', 'Y', 'Z'],
         datasets: [{
             label: 'Gyroscope',
             data: [0, 0, 0],
