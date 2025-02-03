@@ -27,7 +27,7 @@ var accelChart = new Chart(accelCtx, {
                 beginAtZero: true
             },
             x: {
-                display: false // Masquer les libellés sur l'axe X
+                display: true // Afficher les libellés sur l'axe X
             }
         },
         plugins: {
@@ -64,7 +64,7 @@ var gyroChart = new Chart(gyroCtx, {
                 beginAtZero: true
             },
             x: {
-                display: false // Masquer les libellés sur l'axe X
+                display: true // Afficher les libellés sur l'axe X
             }
         },
         plugins: {
@@ -87,11 +87,7 @@ function updateChart(chart, dataIndex, value) {
 
 if ('Accelerometer' in window) {
     let accelerometer = new Accelerometer({ frequency: 60 });
-    let accelData = [0, 0, 0];
     accelerometer.addEventListener('reading', () => {
-        accelData[0] = toBinary(accelerometer.x);
-        accelData[1] = toBinary(accelerometer.y);
-        accelData[2] = toBinary(accelerometer.z);
         console.log(`Accéléromètre lecture: X=${accelerometer.x}, Y=${accelerometer.y}, Z=${accelerometer.z}`);
         updateChart(accelChart, 0, accelerometer.x);
         updateChart(accelChart, 1, accelerometer.y);
@@ -104,11 +100,7 @@ if ('Accelerometer' in window) {
 
 if ('Gyroscope' in window) {
     let gyroscope = new Gyroscope({ frequency: 60 });
-    let gyroData = [0, 0, 0];
     gyroscope.addEventListener('reading', () => {
-        gyroData[0] = toBinary(gyroscope.x);
-        gyroData[1] = toBinary(gyroscope.y);
-        gyroData[2] = toBinary(gyroscope.z);
         console.log(`Gyroscope lecture: X=${gyroscope.x}, Y=${gyroscope.y}, Z=${gyroscope.z}`);
         updateChart(gyroChart, 0, gyroscope.x);
         updateChart(gyroChart, 1, gyroscope.y);
