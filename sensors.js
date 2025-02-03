@@ -30,7 +30,7 @@ var accelChart = new Chart(accelCtx, {
                 display: true, // Afficher les libellés sur l'axe X
                 title: {
                     display: true,
-                    text: 'Axes',
+                    text: 'Accéléromètre',
                     font: {
                         size: 14
                     }
@@ -77,7 +77,7 @@ var gyroChart = new Chart(gyroCtx, {
                 display: true, // Afficher les libellés sur l'axe X
                 title: {
                     display: true,
-                    text: 'Axes',
+                    text: 'Gyroscope',
                     font: {
                         size: 14
                     }
