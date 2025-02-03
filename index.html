@@ -16,61 +16,61 @@
     </main>
 
 <script>
-   
-        var ctx = document.getElementById('MonpremeierGraphiqueEnBarres').getContext('2d');
-        var myBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Accéléromètre', 'Gyroscope','Magnetometer'],
-                datasets: [{
-                    label: 'Valeurs des Capteurs',
-                    data: [0, 0],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+    var ctx = document.getElementById('MonpremeierGraphiqueEnBarres').getContext('2d');
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Accéléromètre', 'Gyroscope', 'Magnetometer'],
+            datasets: [{
+                label: 'Valeurs des Capteurs',
+                data: [0, 0, 0], // Ajout de la valeur pour le magnétomètre
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
+        }
+    });
+
+    if ('Accelerometer' in window && 'Gyroscope' in window && 'Magnetometer' in window) {
+        var accelerometer = new Accelerometer({ frequency: 1 });
+        var gyroscope = new Gyroscope({ frequency: 1 });
+        var magnetometer = new Magnetometer({ frequency: 1 });
+
+        accelerometer.addEventListener('reading', function() {
+            var accData = Math.sqrt(accelerometer.x**2 + accelerometer.y**2 + accelerometer.z**2).toFixed(2);
+            document.getElementById('accelerometer-data').innerText = 'Accéléromètre: ' + accData;
+            myBarChart.data.datasets[0].data[0] = accData;
+            myBarChart.update();
         });
 
-        if ('Accelerometer' in window && 'Gyroscope' in window) {
-            var accelerometer = new Accelerometer({ frequency: 1 });
-            var gyroscope = new Gyroscope({ frequency: 1 });
+        gyroscope.addEventListener('reading', function() {
+            var gyroData = Math.sqrt(gyroscope.x**2 + gyroscope.y**2 + gyroscope.z**2).toFixed(2);
+            document.getElementById('gyroscope-data').innerText = 'Gyroscope: ' + gyroData;
+            myBarChart.data.datasets[0].data[1] = gyroData;
+            myBarChart.update();
+        });
 
-            accelerometer.addEventListener('reading', function() {
-                var accData = Math.sqrt(accelerometer.x**2 + accelerometer.y**2 + accelerometer.z**2).toFixed(2);
-                document.getElementById('accelerometer-data').innerText = 'Accéléromètre: ' + accData;
-                myBarChart.data.datasets[0].data[0] = accData;
-                myBarChart.update();
-            });
+        magnetometer.addEventListener('reading', function() {
+            var magData = Math.sqrt(magnetometer.x**2 + magnetometer.y**2 + magnetometer.z**2).toFixed(2);
+            document.getElementById('magnetometer-data').innerText = 'Magnetometer: ' + magData;
+            myBarChart.data.datasets[0].data[2] = magData; // Utilisation de l'index correct pour le magnétomètre
+            myBarChart.update();
+        });
 
-            gyroscope.addEventListener('reading', function() {
-                var gyroData = Math.sqrt(gyroscope.x**2 + gyroscope.y**2 + gyroscope.z**2).toFixed(2);
-                document.getElementById('gyroscope-data').innerText = 'Gyroscope: ' + gyroData;
-                myBarChart.data.datasets[0].data[1] = gyroData;
-                myBarChart.update();
-            });
+        accelerometer.start();
+        gyroscope.start();
+        magnetometer.start();
 
-           magnetometer.addEventListener('reading', function() {
-                var gyroData = Math.sqrt(magnetometer.x**2 + magnetometer.y**2 + magnetometer.z**2).toFixed(2);
-                document.getElementById('magnetometer-data').innerText = 'Magnetometer: ' + magnetoData;
-                myBarChart.data.datasets[0].data[1] = magnetoData;
-                myBarChart.update();
-            });
-
-            accelerometer.start();
-            gyroscope.start();
-            magnetometer.start();
-
-        } else {
-            console.log('Les capteurs Accéléromètre, Gyroscope, Megnétomètre ne sont pas supportés par ce navigateur.');
-        }
-    </script>
+    } else {
+        console.log('Les capteurs Accéléromètre, Gyroscope, Magnétomètre ne sont pas supportés par ce navigateur.');
+    }
+</script>
 </body>
 </html>
