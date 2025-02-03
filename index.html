@@ -8,19 +8,17 @@
     <style>
         main {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* Évitez de passer à une nouvelle ligne */
             justify-content: center;
-            align-items: flex-start; /* Alignement des graphiques en haut */
-        }
-        .sensor-data, canvas {
-            flex: 1 1 300px; /* 1er 1 pour flex-grow, 2e 1 pour flex-shrink, 300px pour flex-basis */
-            margin: 10px;
+            align-items: flex-start;
         }
         canvas {
+            flex: 1 1 45%; /* 45% de largeur pour chaque graphique */
+            margin: 10px;
             height: 25vh; /* Réduire la hauteur des graphiques */
         }
         @media (max-width: 600px) {
-            .sensor-data, canvas {
+            canvas {
                 flex: 1 1 100%; /* Occuper 100% de la largeur pour les petits écrans */
                 height: 25vh; /* Assurez-vous que la hauteur est également réduite ici */
             }
@@ -28,12 +26,10 @@
     </style>
 </head>
 <body>
+    <h1>Capteurs * 2</h1>
     <main>
-        <h1>-Capteurs * 2 -</h1>
-        <div class="sensor-data" id="accelerometer-data">Accéléromètre: N/A</div>
-        <div class="sensor-data" id="gyroscope-data">Gyroscope: N/A</div>
-        <canvas id="accelerometerChart" style="width: 100%;"></canvas>
-        <canvas id="gyroscopeChart" style="width: 100%;"></canvas>
+        <canvas id="accelerometerChart"></canvas>
+        <canvas id="gyroscopeChart"></canvas>
     </main>
 
     <script src="sensors.js"></script>
