@@ -1,51 +1,73 @@
-function initializeChart(canvasId, label) {
-    var ctx = document.getElementById(canvasId).getContext('2d');
-    return new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: [label],
-            datasets: [{
-                label: `Valeur ${label}`,
-                data: [0],
-                backgroundColor: 'rgba(75, 152, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+var ctx = document.getElementById('sensorChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Accéléromètre X', 'Accéléromètre Y', 'Accéléromètre Z', 'Gyroscope X', 'Gyroscope Y', 'Gyroscope Z'],
+        datasets: [
+            {
+                label: 'Accéléromètre',
+                data: [0, 0, 0],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)', // Couleur pour X
+                    'rgba(255, 159, 64, 0.2)',  // Couleur pour Y
+                    'rgba(255, 205, 86, 0.2)'   // Couleur pour Z
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 205, 86, 1)'
+                ],
                 borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+            },
+            {
+                label: 'Gyroscope',
+                data: [0, 0, 0],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)', // Couleur pour X
+                    'rgba(75, 192, 192, 0.2)', // Couleur pour Y
+                    'rgba(153, 102, 255, 0.2)' // Couleur pour Z
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
             }
         }
-    });
-}
-
-let accelerometerChartX = initializeChart('accelerometerChartX', 'Accéléromètre X');
-let accelerometerChartY = initializeChart('accelerometerChartY', 'Accéléromètre Y');
-let accelerometerChartZ = initializeChart('accelerometerChartZ', 'Accéléromètre Z');
-let gyroscopeChartX = initializeChart('gyroscopeChartX', 'Gyroscope X');
-let gyroscopeChartY = initializeChart('gyroscopeChartY', 'Gyroscope Y');
-let gyroscopeChartZ = initializeChart('gyroscopeChartZ', 'Gyroscope Z');
+    }
+});
 
 function toBinary(value) {
     return value >= 0 ? 1 : -1;
 }
 
-function updateChart(chart, elementId, value) {
+function updateChart(sensorType, axis, dataIndex, value) {
     let binaryValue = toBinary(value);
-    document.getElementById(elementId).textContent = `${elementId.split('-')[0]}: ${binaryValue}`;
-    chart.data.datasets[0].data[0] = binaryValue;
-    chart.update();
+    document.getElementById(`${sensorType}-data-${axis}`).textContent = `${sensorType} ${axis.toUpperCase()}: ${binaryValue}`;
+    
+    if (sensorType === 'accelerometer') {
+        myChart.data.datasets[0].data[dataIndex] = binaryValue;
+    } else if (sensorType === 'gyroscope') {
+        myChart.data.datasets[1].data[dataIndex - 3] = binaryValue; // indices 3, 4 et 5 pour le gyroscope
+    }
+    
+    myChart.update();
 }
 
 if ('Accelerometer' in window) {
     let accelerometer = new Accelerometer({ frequency: 60 });
     accelerometer.addEventListener('reading', () => {
-        updateChart(accelerometerChartX, 'accelerometer-data-x', accelerometer.x);
-        updateChart(accelerometerChartY, 'accelerometer-data-y', accelerometer.y);
-        updateChart(accelerometerChartZ, 'accelerometer-data-z', accelerometer.z);
+        updateChart('accelerometer', 'x', 0, accelerometer.x);
+        updateChart('accelerometer', 'y', 1, accelerometer.y);
+        updateChart('accelerometer', 'z', 2, accelerometer.z);
     });
     accelerometer.start();
 } else {
@@ -55,9 +77,9 @@ if ('Accelerometer' in window) {
 if ('Gyroscope' in window) {
     let gyroscope = new Gyroscope({ frequency: 60 });
     gyroscope.addEventListener('reading', () => {
-        updateChart(gyroscopeChartX, 'gyroscope-data-x', gyroscope.x);
-        updateChart(gyroscopeChartY, 'gyroscope-data-y', gyroscope.y);
-        updateChart(gyroscopeChartZ, 'gyroscope-data-z', gyroscope.z);
+        updateChart('gyroscope', 'x', 3, gyroscope.x);
+        updateChart('gyroscope', 'y', 4, gyroscope.y);
+        updateChart('gyroscope', 'z', 5, gyroscope.z);
     });
     gyroscope.start();
 } else {
