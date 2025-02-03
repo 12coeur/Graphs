@@ -3,27 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capteurs Disponibles</title>
+    <title>Graphique en Barres Dynamique avec Chart.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Liste des Capteurs Disponibles</h1>
-    <ul id="sensor-list"></ul>
-    <p id="message"></p>
+    <main>
+        <h1>Données Capteurs</h1>
+        <div class="sensor-data" id="accelerometer-data">Accéléromètre: N/A</div>
+        <div class="sensor-data" id="gyroscope-data">Gyroscope: N/A</div>
+        <canvas id="MonpremeierGraphiqueEnBarres"></canvas>     
+    </main>
 
-    <script>
-        const sensorList = document.getElementById('sensor-list');
-        const message = document.getElementById('message');
+<script>
+   
+        var ctx = document.getElementById('MonpremeierGraphiqueEnBarres').getContext('2d');
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Accéléromètre', 'Gyroscope'],
+                datasets: [{
+                    label: 'Valeurs des Capteurs',
+                    data: [0, 0],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
-        if ('Accelerometer' in window) {
-            const sensors = ['Accelerometer', 'Gyroscope', 'Magnetometer'];
-            sensors.forEach(sensor => {
-                let listItem = document.createElement('li');
-                listItem.textContent = `Capteur disponible : ${sensor}`;
-                sensorList.appendChild(listItem);
+        if ('Accelerometer' in window && 'Gyroscope' in window) {
+            var accelerometer = new Accelerometer({ frequency: 1 });
+            var gyroscope = new Gyroscope({ frequency: 1 });
+
+            accelerometer.addEventListener('reading', function() {
+                var accData = Math.sqrt(accelerometer.x**2 + accelerometer.y**2 + accelerometer.z**2).toFixed(2);
+                document.getElementById('accelerometer-data').innerText = 'Accéléromètre: ' + accData;
+                myBarChart.data.datasets[0].data[0] = accData;
+                myBarChart.update();
             });
+
+            gyroscope.addEventListener('reading', function() {
+                var gyroData = Math.sqrt(gyroscope.x**2 + gyroscope.y**2 + gyroscope.z**2).toFixed(2);
+                document.getElementById('gyroscope-data').innerText = 'Gyroscope: ' + gyroData;
+                myBarChart.data.datasets[0].data[1] = gyroData;
+                myBarChart.update();
+            });
+
+            accelerometer.start();
+            gyroscope.start();
         } else {
-            message.textContent = 'Les capteurs ne sont pas pris en charge par ce navigateur.';
-            console.log('Les capteurs ne sont pas pris en charge par ce navigateur.');
+            console.log('Les capteurs Accéléromètre et Gyroscope ne sont pas supportés par ce navigateur.');
         }
     </script>
 </body>
