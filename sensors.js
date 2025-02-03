@@ -40,6 +40,14 @@ var myChart = new Chart(ctx, {
         scales: {
             y: {
                 beginAtZero: true
+            },
+            x: {
+                display: false // Retirer les libellés des axes X
+            }
+        },
+        plugins: {
+            legend: {
+                display: false // Retirer les libellés de la légende
             }
         }
     }
@@ -57,31 +65,3 @@ function updateChart(sensorType, axis, dataIndex, value) {
         myChart.data.datasets[0].data[dataIndex] = binaryValue;
     } else if (sensorType === 'gyroscope') {
         myChart.data.datasets[1].data[dataIndex - 3] = binaryValue; // indices 3, 4 et 5 pour le gyroscope
-    }
-    
-    myChart.update();
-}
-
-if ('Accelerometer' in window) {
-    let accelerometer = new Accelerometer({ frequency: 60 });
-    accelerometer.addEventListener('reading', () => {
-        updateChart('accelerometer', 'x', 0, accelerometer.x);
-        updateChart('accelerometer', 'y', 1, accelerometer.y);
-        updateChart('accelerometer', 'z', 2, accelerometer.z);
-    });
-    accelerometer.start();
-} else {
-    console.log('L\'API Accéléromètre n\'est pas disponible.');
-}
-
-if ('Gyroscope' in window) {
-    let gyroscope = new Gyroscope({ frequency: 60 });
-    gyroscope.addEventListener('reading', () => {
-        updateChart('gyroscope', 'x', 3, gyroscope.x);
-        updateChart('gyroscope', 'y', 4, gyroscope.y);
-        updateChart('gyroscope', 'z', 5, gyroscope.z);
-    });
-    gyroscope.start();
-} else {
-    console.log('L\'API Gyroscope n\'est pas disponible.');
-}
