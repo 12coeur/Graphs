@@ -1,5 +1,5 @@
 if ('Accelerometer' in window) {
-    let accelerometer = new Accelerometer({frequency: 60});
+    let accelerometer = new Accelerometer({ frequency: 60 });
     accelerometer.addEventListener('reading', () => {
         document.getElementById('accelerometer-data').textContent =
             `Accéléromètre: ${accelerometer.x}, ${accelerometer.y}, ${accelerometer.z}`;
@@ -10,7 +10,7 @@ if ('Accelerometer' in window) {
 }
 
 if ('Gyroscope' in window) {
-    let gyroscope = new Gyroscope({frequency: 60});
+    let gyroscope = new Gyroscope({ frequency: 60 });
     gyroscope.addEventListener('reading', () => {
         document.getElementById('gyroscope-data').textContent =
             `Gyroscope: ${gyroscope.x}, ${gyroscope.y}, ${gyroscope.z}`;
@@ -21,10 +21,10 @@ if ('Gyroscope' in window) {
 }
 
 if ('Magnetometer' in window) {
-    let gyroscope = new Magnetometer({frequency: 60});
+    let magnetometer = new Magnetometer({ frequency: 60 });
     magnetometer.addEventListener('reading', () => {
         document.getElementById('magnetometer-data').textContent =
-            `Magnetometer: ${magnetometer.x}, ${magnetometer.y}, ${magnetometer.z}`;
+            `Magnétomètre: ${magnetometer.x}, ${magnetometer.y}, ${magnetometer.z}`;
     });
     magnetometer.start();
 } else {
