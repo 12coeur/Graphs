@@ -8,7 +8,7 @@
 </head>
 <body>
     <main>
-        <h1>Capteurs téléphone</h1>
+        <h1>Capteurs</h1>
         <div class="sensor-data" id="accelerometer-data">Accéléromètre: N/A</div>
         <div class="sensor-data" id="gyroscope-data">Gyroscope: N/A</div>
         <div class="sensor-data" id="magnetometer-data">Magnetometer: N/A</div>
@@ -38,7 +38,7 @@
         }
     });
 
-   if ('Accelerometer' in window && 'Gyroscope' in window && 'Magnetometer' in window) {
+  if ('Accelerometer' in window && 'Gyroscope' in window && 'Magnetometer' in window) {
     try {
         var accelerometer = new Accelerometer({ frequency: 1 });
         var gyroscope = new Gyroscope({ frequency: 1 });
@@ -60,7 +60,7 @@
 
         magnetometer.addEventListener('reading', function() {
             var magData = Math.sqrt(magnetometer.x**2 + magnetometer.y**2 + magnetometer.z**2).toFixed(2);
-            document.getElementById('magnetometer-data').innerText = 'Magnetometer: ' + magData;
+            document.getElementById('magnetometer-data').innerText = 'Magnétomètre: ' + magData;
             myBarChart.data.datasets[0].data[2] = magData; // Utilisation de l'index correct pour le magnétomètre
             myBarChart.update();
         });
@@ -74,7 +74,6 @@
 } else {
     console.log('Les capteurs Accéléromètre, Gyroscope, Magnétomètre ne sont pas supportés par ce navigateur.');
 }
-
 </script>
 </body>
 </html>
