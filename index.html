@@ -8,7 +8,7 @@
 </head>
 <body>
     <main>
-        <h1>-Capteurs-</h1>
+        <h1>-Capteurs les 3 -</h1>
         <div class="sensor-data" id="accelerometer-data">Accéléromètre: N/A</div>
         <div class="sensor-data" id="gyroscope-data">Gyroscope: N/A</div>
         <div class="sensor-data" id="magnetometer-data">Magnétomètre: N/A</div>
@@ -37,42 +37,7 @@
                 }
             }
         });
-
-        function updateChart(sensorType, dataIndex, sensorData) {
-            var data = Math.sqrt(sensorData.x**2 + sensorData.y**2 + sensorData.z**2).toFixed(2);
-            console.log(`${sensorType}: ${data}`); // Ajout de console.log pour le débogage
-            document.getElementById(sensorType + '-data').innerText = `${sensorType}: ${data}`;
-            myBarChart.data.datasets[0].data[dataIndex] = data;
-            myBarChart.update();
-        }
-
-        if ('Accelerometer' in window && 'Gyroscope' in window && 'Magnetometer' in window) {
-            try {
-                var accelerometer = new Accelerometer({ frequency: 1 });
-                var gyroscope = new Gyroscope({ frequency: 1 });
-                var magnetometer = new Magnetometer({ frequency: 1 });
-
-                accelerometer.addEventListener('reading', function() {
-                    updateChart('accelerometer', 0, accelerometer);
-                });
-
-                gyroscope.addEventListener('reading', function() {
-                    updateChart('gyroscope', 1, gyroscope);
-                });
-
-                magnetometer.addEventListener('reading', function() {
-                    updateChart('magnetometer', 2, magnetometer);
-                });
-
-                accelerometer.start();
-                gyroscope.start();
-                magnetometer.start();
-            } catch (error) {
-                console.error('Erreur lors de l\'initialisation des capteurs:', error);
-            }
-        } else {
-            console.log('Les capteurs Accéléromètre, Gyroscope, Magnétomètre ne sont pas supportés par ce navigateur.');
-        }
     </script>
+    <script src="sensors.js"></script>
 </body>
 </html>
