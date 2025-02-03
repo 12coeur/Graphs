@@ -11,6 +11,7 @@
         <h1>Données Capteurs</h1>
         <div class="sensor-data" id="accelerometer-data">Accéléromètre: N/A</div>
         <div class="sensor-data" id="gyroscope-data">Gyroscope: N/A</div>
+        <div class="sensor-data" id="magnetometer-data">Magnetometer: N/A</div>
         <canvas id="MonpremeierGraphiqueEnBarres"></canvas>     
     </main>
 
@@ -20,7 +21,7 @@
         var myBarChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Accéléromètre', 'Gyroscope'],
+                labels: ['Accéléromètre', 'Gyroscope','Magnetometer'],
                 datasets: [{
                     label: 'Valeurs des Capteurs',
                     data: [0, 0],
@@ -56,10 +57,19 @@
                 myBarChart.update();
             });
 
+           magnetometer.addEventListener('reading', function() {
+                var gyroData = Math.sqrt(magnetometer.x**2 + magnetometer.y**2 + magnetometer.z**2).toFixed(2);
+                document.getElementById('magnetometer-data').innerText = 'Magnetometer: ' + magnetoData;
+                myBarChart.data.datasets[0].data[1] = magnetoData;
+                myBarChart.update();
+            });
+
             accelerometer.start();
             gyroscope.start();
+            magnetometer.start();
+
         } else {
-            console.log('Les capteurs Accéléromètre et Gyroscope ne sont pas supportés par ce navigateur.');
+            console.log('Les capteurs Accéléromètre, Gyroscope, Megnétomètre ne sont pas supportés par ce navigateur.');
         }
     </script>
 </body>
