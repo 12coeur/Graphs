@@ -24,7 +24,7 @@ if ('Magnetometer' in window) {
     let gyroscope = new Magnetometer({frequency: 60});
     magnetometer.addEventListener('reading', () => {
         document.getElementById('magnetometer-data').textContent =
-            `Magnetometer: ${magnetometer.x}, ${magnetometer .y}, ${magnetometer .z}`;
+            `Magnetometer: ${magnetometer.x}, ${magnetometer.y}, ${magnetometer.z}`;
     });
     magnetometer.start();
 } else {
