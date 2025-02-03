@@ -27,7 +27,17 @@ var accelChart = new Chart(accelCtx, {
                 beginAtZero: true
             },
             x: {
-                display: true // Afficher les libellés sur l'axe X
+                display: true, // Afficher les libellés sur l'axe X
+                title: {
+                    display: true,
+                    text: 'Axes',
+                    font: {
+                        size: 14
+                    }
+                },
+                ticks: {
+                    autoSkip: false
+                }
             }
         },
         plugins: {
@@ -64,7 +74,17 @@ var gyroChart = new Chart(gyroCtx, {
                 beginAtZero: true
             },
             x: {
-                display: true // Afficher les libellés sur l'axe X
+                display: true, // Afficher les libellés sur l'axe X
+                title: {
+                    display: true,
+                    text: 'Axes',
+                    font: {
+                        size: 14
+                    }
+                },
+                ticks: {
+                    autoSkip: false
+                }
             }
         },
         plugins: {
