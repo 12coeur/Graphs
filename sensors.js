@@ -85,11 +85,6 @@ function updateChart(chart, dataIndex, value) {
     chart.update();
 }
 
-function updateSensorDataDisplay(accelData, gyroData) {
-    document.getElementById('accelerometer-data').textContent = `Accéléromètre: (${accelData.join(', ')})`;
-    document.getElementById('gyroscope-data').textContent = `Gyroscope: (${gyroData.join(', ')})`;
-}
-
 if ('Accelerometer' in window) {
     let accelerometer = new Accelerometer({ frequency: 60 });
     let accelData = [0, 0, 0];
@@ -101,7 +96,6 @@ if ('Accelerometer' in window) {
         updateChart(accelChart, 0, accelerometer.x);
         updateChart(accelChart, 1, accelerometer.y);
         updateChart(accelChart, 2, accelerometer.z);
-        updateSensorDataDisplay(accelData, [0, 0, 0]);
     });
     accelerometer.start();
 } else {
@@ -119,7 +113,6 @@ if ('Gyroscope' in window) {
         updateChart(gyroChart, 0, gyroscope.x);
         updateChart(gyroChart, 1, gyroscope.y);
         updateChart(gyroChart, 2, gyroscope.z);
-        updateSensorDataDisplay([0, 0, 0], gyroData);
     });
     gyroscope.start();
 } else {
