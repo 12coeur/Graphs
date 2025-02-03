@@ -1,8 +1,51 @@
+function initializeChart(canvasId, label) {
+    var ctx = document.getElementById(canvasId).getContext('2d');
+    return new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [label],
+            datasets: [{
+                label: `Valeur ${label}`,
+                data: [0],
+                backgroundColor: 'rgba(75, 152, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+let accelerometerChartX = initializeChart('accelerometerChartX', 'Accéléromètre X');
+let accelerometerChartY = initializeChart('accelerometerChartY', 'Accéléromètre Y');
+let accelerometerChartZ = initializeChart('accelerometerChartZ', 'Accéléromètre Z');
+let gyroscopeChartX = initializeChart('gyroscopeChartX', 'Gyroscope X');
+let gyroscopeChartY = initializeChart('gyroscopeChartY', 'Gyroscope Y');
+let gyroscopeChartZ = initializeChart('gyroscopeChartZ', 'Gyroscope Z');
+
+function toBinary(value) {
+    return value >= 0 ? 1 : -1;
+}
+
+function updateChart(chart, elementId, value) {
+    let binaryValue = toBinary(value);
+    document.getElementById(elementId).textContent = `${elementId.split('-')[0]}: ${binaryValue}`;
+    chart.data.datasets[0].data[0] = binaryValue;
+    chart.update();
+}
+
 if ('Accelerometer' in window) {
     let accelerometer = new Accelerometer({ frequency: 60 });
     accelerometer.addEventListener('reading', () => {
-        document.getElementById('accelerometer-data').textContent =
-            `Accéléromètre: ${accelerometer.x}, ${accelerometer.y}, ${accelerometer.z}`;
+        updateChart(accelerometerChartX, 'accelerometer-data-x', accelerometer.x);
+        updateChart(accelerometerChartY, 'accelerometer-data-y', accelerometer.y);
+        updateChart(accelerometerChartZ, 'accelerometer-data-z', accelerometer.z);
     });
     accelerometer.start();
 } else {
@@ -12,41 +55,11 @@ if ('Accelerometer' in window) {
 if ('Gyroscope' in window) {
     let gyroscope = new Gyroscope({ frequency: 60 });
     gyroscope.addEventListener('reading', () => {
-        document.getElementById('gyroscope-data').textContent =
-            `Gyroscope: ${gyroscope.x}, ${gyroscope.y}, ${gyroscope.z}`;
+        updateChart(gyroscopeChartX, 'gyroscope-data-x', gyroscope.x);
+        updateChart(gyroscopeChartY, 'gyroscope-data-y', gyroscope.y);
+        updateChart(gyroscopeChartZ, 'gyroscope-data-z', gyroscope.z);
     });
     gyroscope.start();
 } else {
     console.log('L\'API Gyroscope n\'est pas disponible.');
 }
-
-if ('Magnetometer' in window) {
-    let magnetometer = new Magnetometer({ frequency: 60 });
-    magnetometer.addEventListener('reading', () => {
-        document.getElementById('magnetometer-data').textContent =
-            `Magnétomètre: ${magnetometer.x}, ${magnetometer.y}, ${magnetometer.z}`;
-    });
-    magnetometer.start();
-} else {
-    console.log('L\'API Magnetometer n\'est pas disponible.');
-}
-function handleSensor(sensorType, elementId) {
-    if (sensorType in window) {
-        try {
-            let sensor = new window[sensorType]({ frequency: 60 });
-            sensor.addEventListener('reading', () => {
-                document.getElementById(elementId).textContent =
-                    `${sensorType}: ${sensor.x}, ${sensor.y}, ${sensor.z}`;
-            });
-            sensor.start();
-        } catch (error) {
-            console.error(`Erreur lors de l'initialisation du ${sensorType}:`, error);
-        }
-    } else {
-        console.log(`L'API ${sensorType} n'est pas disponible.`);
-    }
-}
-
-handleSensor('Accelerometer', 'accelerometer-data');
-handleSensor('Gyroscope', 'gyroscope-data');
-handleSensor('Magnetometer', 'magnetometer-data');
