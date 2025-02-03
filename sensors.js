@@ -97,6 +97,7 @@ if ('Accelerometer' in window) {
         accelData[0] = toBinary(accelerometer.x);
         accelData[1] = toBinary(accelerometer.y);
         accelData[2] = toBinary(accelerometer.z);
+        console.log(`Accéléromètre lecture: X=${accelerometer.x}, Y=${accelerometer.y}, Z=${accelerometer.z}`);
         updateChart(accelChart, 0, accelerometer.x);
         updateChart(accelChart, 1, accelerometer.y);
         updateChart(accelChart, 2, accelerometer.z);
@@ -114,6 +115,7 @@ if ('Gyroscope' in window) {
         gyroData[0] = toBinary(gyroscope.x);
         gyroData[1] = toBinary(gyroscope.y);
         gyroData[2] = toBinary(gyroscope.z);
+        console.log(`Gyroscope lecture: X=${gyroscope.x}, Y=${gyroscope.y}, Z=${gyroscope.z}`);
         updateChart(gyroChart, 0, gyroscope.x);
         updateChart(gyroChart, 1, gyroscope.y);
         updateChart(gyroChart, 2, gyroscope.z);
