@@ -19,3 +19,14 @@ if ('Gyroscope' in window) {
 } else {
     console.log('L\'API Gyroscope n\'est pas disponible.');
 }
+
+if ('Magnetometer' in window) {
+    let gyroscope = new Magnetometer({frequency: 60});
+    magnetometer.addEventListener('reading', () => {
+        document.getElementById('magnetometer-data').textContent =
+            `Magnetometer: ${magnetometer.x}, ${magnetometer .y}, ${magnetometer .z}`;
+    });
+    magnetometer.start();
+} else {
+    console.log('L\'API Magnetometer n\'est pas disponible.');
+}
