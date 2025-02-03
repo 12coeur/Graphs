@@ -30,3 +30,23 @@ if ('Magnetometer' in window) {
 } else {
     console.log('L\'API Magnetometer n\'est pas disponible.');
 }
+function handleSensor(sensorType, elementId) {
+    if (sensorType in window) {
+        try {
+            let sensor = new window[sensorType]({ frequency: 60 });
+            sensor.addEventListener('reading', () => {
+                document.getElementById(elementId).textContent =
+                    `${sensorType}: ${sensor.x}, ${sensor.y}, ${sensor.z}`;
+            });
+            sensor.start();
+        } catch (error) {
+            console.error(`Erreur lors de l'initialisation du ${sensorType}:`, error);
+        }
+    } else {
+        console.log(`L'API ${sensorType} n'est pas disponible.`);
+    }
+}
+
+handleSensor('Accelerometer', 'accelerometer-data');
+handleSensor('Gyroscope', 'gyroscope-data');
+handleSensor('Magnetometer', 'magnetometer-data');
